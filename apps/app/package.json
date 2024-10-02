@@ -15,7 +15,8 @@
 		"test:unit": "vitest"
 	},
 	"dependencies": {
-		"@repo/ui": "*"
+		"@repo/ui": "*",
+		"better-auth": "^0.2.8"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.47.2",
