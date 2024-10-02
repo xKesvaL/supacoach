@@ -16,7 +16,7 @@
 	},
 	"dependencies": {
 		"@repo/ui": "*",
-		"better-auth": "^0.2.8"
+		"better-auth": "^0.2.9-beta.1"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.47.2",
