@@ -22,13 +22,9 @@ const app = new Elysia()
 			return request.body;
 		}
 	})
-	.all(
-		"/api/auth/*",
-		({ request }) => {
-			return auth.handler(request);
-		},
-		{},
-	);
+	.all("/api/auth/*", ({ request }) => {
+		return auth.handler(request);
+	});
 
 await prisma.$connect();
 console.log("🗄️ Database was connected!");
