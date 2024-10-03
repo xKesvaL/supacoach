@@ -1,38 +1,14 @@
-import { Elysia } from "elysia";
-import { logger } from "@bogeychan/elysia-logger";
-import { swagger } from "@elysiajs/swagger";
-import { bearer } from "@elysiajs/bearer";
-import { cors } from "@elysiajs/cors";
-import { serverTiming } from "@elysiajs/server-timing";
-import { prisma } from "./db";
+import { Hono } from "hono";
 import { auth } from "./lib/auth";
 
-const app = new Elysia()
-	.use(logger())
-	.use(swagger())
-	.use(bearer())
-	.use(
-		cors({
-			origin: true,
-		}),
-	)
-	.use(serverTiming())
-	.onParse(({ request, route }) => {
-		if (route.startsWith("/api/auth")) {
-			return request.body;
-		}
-	})
-	.all(
-		"/api/auth/*",
-		({ request }) => {
-			return auth.handler(request);
-		},
-		{},
-	);
+const app = new Hono();
 
-await prisma.$connect();
-console.log("🗄️ Database was connected!");
+app.get("/", (c) => {
+	return c.text("Hello Hono!");
+});
 
-app.listen(process.env.PORT as string, () =>
-	console.log(`🦊 Server started at ${app.server?.url.origin}`),
-);
+app.on(["POST", "GET"], "/api/auth/**", (c) => {
+	return auth.handler(c.req.raw);
+});
+
+export default app;
