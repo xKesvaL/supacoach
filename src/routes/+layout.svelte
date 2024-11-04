@@ -2,17 +2,28 @@
 	import { i18n } from '$lib/i18n';
 	import { ParaglideJS } from '@inlang/paraglide-sveltekit';
 	import '../app.css';
-	import type { Snippet } from 'svelte';
-	import type { LayoutServerData } from './$types.js';
+	import { onMount, type Snippet } from 'svelte';
+	import type { PageData } from './$types.js';
+	import { invalidate } from '$app/navigation';
 
 	interface Props {
 		children: Snippet;
-		data: LayoutServerData;
+		data: PageData;
 	}
 
 	let { children, data }: Props = $props();
 
-	$inspect(data);
+	const { supabase, session } = data;
+
+	onMount(() => {
+		const { data } = supabase.auth.onAuthStateChange((_, newSession) => {
+			if (newSession?.expires_at !== session?.expires_at) {
+				invalidate('supabase:auth');
+			}
+		});
+
+		return () => data.subscription.unsubscribe();
+	});
 </script>
 
 <ParaglideJS {i18n}>
