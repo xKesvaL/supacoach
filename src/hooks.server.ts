@@ -1,4 +1,4 @@
-import { redirect, type Handle } from "@sveltejs/kit";
+import type { Handle } from "@sveltejs/kit";
 import { i18n } from "$lib/i18n";
 import { sequence } from "@sveltejs/kit/hooks";
 import { createServerClient } from "@supabase/ssr";
@@ -7,7 +7,6 @@ import {
 	PUBLIC_SUPABASE_ANON_KEY,
 	PUBLIC_SUPABASE_URL,
 } from "$env/static/public";
-import { UNAUTHED_PATHS } from "$lib/config";
 
 const handleParaglide: Handle = i18n.handle();
 
@@ -69,32 +68,4 @@ const handleGlobal: Handle = async ({ event, resolve }) => {
 	});
 };
 
-const authGuard: Handle = async ({ event, resolve }) => {
-	const { session, user } = await event.locals.safeGetSession();
-	event.locals.session = session;
-	event.locals.user = user;
-
-	if (
-		!event.locals.session &&
-		!event.url.pathname.startsWith("/auth") &&
-		!UNAUTHED_PATHS.some(({ path, startWith }) =>
-			startWith
-				? event.url.pathname.startsWith(path)
-				: event.url.pathname.split("/").slice(1).includes(path),
-		)
-	) {
-		redirect(303, "/auth/login");
-	}
-
-	if (event.locals.session && event.url.pathname === "/auth") {
-		redirect(303, "/private");
-	}
-
-	return resolve(event);
-};
-
-export const handle: Handle = sequence(
-	handleParaglide,
-	handleGlobal,
-	// authGuard,
-);
+export const handle: Handle = sequence(handleParaglide, handleGlobal);

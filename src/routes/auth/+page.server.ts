@@ -2,6 +2,7 @@ import { fail, superValidate } from "sveltekit-superforms";
 import { authWithEmailSchema } from "$lib/db/schemas/auth";
 import { zod } from "sveltekit-superforms/adapters";
 import { redirect, type Actions } from "@sveltejs/kit";
+import { route } from "$lib/ROUTES";
 
 export const actions = {
 	login: async ({ request, locals: { supabase } }) => {
@@ -35,6 +36,6 @@ export const actions = {
 			return fail(400, { registerForm });
 		}
 
-		redirect(303, "/");
+		redirect(303, route("/auth/sign-up/confirm-email"));
 	},
 } satisfies Actions;

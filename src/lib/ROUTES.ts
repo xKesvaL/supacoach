@@ -14,6 +14,7 @@ const PAGES = {
   "/auth/error": `/auth/error`,
   "/auth/login": `/auth/login`,
   "/auth/sign-up": `/auth/sign-up`,
+  "/auth/sign-up/confirm-email": `/auth/sign-up/confirm-email`,
   "/welcome": `/welcome`
 }
 
@@ -139,7 +140,7 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '/': never, '/authed': never, '/auth/error': never, '/auth/login': never, '/auth/sign-up': never, '/welcome': never }
+  PAGES: { '/': never, '/authed': never, '/auth/error': never, '/auth/login': never, '/auth/sign-up': never, '/auth/sign-up/confirm-email': never, '/welcome': never }
   SERVERS: { 'GET /auth/confirm': never, 'GET /auth/verify': never, 'GET /auth/callback': never, 'GET /auth/google': never }
   ACTIONS: { 'login /auth': never, 'register /auth': never }
   LINKS: Record<string, never>
