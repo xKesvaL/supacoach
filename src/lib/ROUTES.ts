@@ -13,7 +13,8 @@ const PAGES = {
   "/authed": `/authed`,
   "/auth/error": `/auth/error`,
   "/auth/login": `/auth/login`,
-  "/auth/sign-up": `/auth/sign-up`
+  "/auth/sign-up": `/auth/sign-up`,
+  "/welcome": `/welcome`
 }
 
 /**
@@ -21,7 +22,9 @@ const PAGES = {
  */
 const SERVERS = {
   "GET /auth/confirm": `/auth/confirm`,
-  "GET /auth/verify": `/auth/verify`
+  "GET /auth/verify": `/auth/verify`,
+  "GET /auth/callback": `/auth/callback`,
+  "GET /auth/google": `/auth/google`
 }
 
 /**
@@ -136,8 +139,8 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '/': never, '/authed': never, '/auth/error': never, '/auth/login': never, '/auth/sign-up': never }
-  SERVERS: { 'GET /auth/confirm': never, 'GET /auth/verify': never }
+  PAGES: { '/': never, '/authed': never, '/auth/error': never, '/auth/login': never, '/auth/sign-up': never, '/welcome': never }
+  SERVERS: { 'GET /auth/confirm': never, 'GET /auth/verify': never, 'GET /auth/callback': never, 'GET /auth/google': never }
   ACTIONS: { 'login /auth': never, 'register /auth': never }
   LINKS: Record<string, never>
   Params: Record<string, never>

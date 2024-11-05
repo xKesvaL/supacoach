@@ -13,7 +13,7 @@
 
 	let { children, data }: Props = $props();
 
-	const { supabase, session } = data;
+	const { supabase, session, user } = data;
 
 	onMount(() => {
 		const { data } = supabase.auth.onAuthStateChange((_, newSession) => {
@@ -24,6 +24,8 @@
 
 		return () => data.subscription.unsubscribe();
 	});
+
+	$inspect({ session, user });
 </script>
 
 <ParaglideJS {i18n}>

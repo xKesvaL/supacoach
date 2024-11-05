@@ -76,13 +76,12 @@ const authGuard: Handle = async ({ event, resolve }) => {
 
 	if (
 		!event.locals.session &&
-		!UNAUTHED_PATHS.some(({ path, startWith }) => {
-			if (startWith) {
-				return event.url.pathname.startsWith(path);
-			}
-
-			return event.url.pathname === path;
-		})
+		!event.url.pathname.startsWith("/auth") &&
+		!UNAUTHED_PATHS.some(({ path, startWith }) =>
+			startWith
+				? event.url.pathname.startsWith(path)
+				: event.url.pathname.split("/").slice(1).includes(path),
+		)
 	) {
 		redirect(303, "/auth/login");
 	}
@@ -97,5 +96,5 @@ const authGuard: Handle = async ({ event, resolve }) => {
 export const handle: Handle = sequence(
 	handleParaglide,
 	handleGlobal,
-	authGuard,
+	// authGuard,
 );
