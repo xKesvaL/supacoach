@@ -12,9 +12,48 @@ enum Role {
   user
 }
 
-model Profile {
+model User {
   id   String @id @db.Uuid
   role Role   @default(user)
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Profile Profile[]
+
+  @@map("user")
+}
+
+model Profile {
+  id String @id @db.Uuid
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
   @@map("profile")
+}
+
+// Base program model that will be extended by other models
+model Program {
+  id               String             @id @db.Uuid
+  name             String
+  description      String
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  TrainingProgram  TrainingProgram[]
+  NutritionProgram NutritionProgram[]
+}
+
+model TrainingProgram {
+  programId String  @id
+  program   Program @relation(fields: [programId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("training_program")
+}
+
+model NutritionProgram {
+  programId String  @id
+  program   Program @relation(fields: [programId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("nutrition_program")
 }
