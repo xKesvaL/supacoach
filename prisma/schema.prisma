@@ -23,7 +23,7 @@ model User {
   createdPrograms  Program[]     @relation("ProgramCreator") // Programs created by user
   enrolledPrograms UserProgram[] // Programs user is enrolled in
 
-  @@map("user")
+  @@map("users")
 }
 
 model Profile {
@@ -32,7 +32,7 @@ model Profile {
   userId String @db.Uuid
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  @@map("profile")
+  @@map("profiles")
 }
 
 enum UserProgramStatus {
@@ -51,7 +51,7 @@ model UserProgram {
   program Program @relation(fields: [programId], references: [id], onDelete: Cascade)
 
   @@id([userId, programId])
-  @@map("user_program")
+  @@map("user_programs")
 }
 
 model Program {
@@ -69,19 +69,19 @@ model Program {
   TrainingProgram  TrainingProgram[]
   NutritionProgram NutritionProgram[]
 
-  @@map("program")
+  @@map("programs")
 }
 
 model TrainingProgram {
   programId String  @id @db.Uuid
   program   Program @relation(fields: [programId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  @@map("training_program")
+  @@map("training_programs")
 }
 
 model NutritionProgram {
   programId String  @id @db.Uuid
   program   Program @relation(fields: [programId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  @@map("nutrition_program")
+  @@map("nutrition_programs")
 }
