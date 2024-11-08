@@ -12,7 +12,10 @@
 		"lint": "prettier --check . && eslint .",
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run && npm run test:e2e",
-		"test:e2e": "playwright test"
+		"test:e2e": "playwright test",
+		"docker:pull": "cd ./supabase && docker-compose pull",
+		"docker:up": "cd ./supabase && docker-compose up -d",
+		"docker:down": "cd ./supabase && docker-compose down"
 	},
 	"devDependencies": {
 		"@internationalized/date": "^3.5.6",
