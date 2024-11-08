@@ -7,7 +7,7 @@
 create or replace function public.handle_new_user()
 returns trigger as $$
 begin
-        insert into public.user (id)
+        insert into public.profiles (id)
         values (new.id);
         return new;
 end;
@@ -23,12 +23,12 @@ create or replace trigger on_auth_user_created
 create or replace function public.handle_user_delete()
 returns trigger as $$
 begin
-        delete from public.user where id = old.id;
+        delete from auth.users where id = old.id;
         return old;
 end;
 $$ language plpgsql security definer;
 
 -- -- -- -- -- -- -- -- --
-create or replace trigger on_auth_user_deleted
-        after delete on auth.users
+create or replace trigger on_profile_user_deleted
+        after delete on public.profiles
         for each row execute procedure public.handle_user_delete()
